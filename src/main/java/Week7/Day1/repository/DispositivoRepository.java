@@ -13,7 +13,7 @@ import java.util.List;
 @Repository
 public interface DispositivoRepository extends JpaRepository<Dispositivo, Integer> {
 
-    @Query("SELECT d FROM DispositivoRequest d WHERE d.statoDispositivo = :statoDispositivo")
+    @Query("SELECT d FROM Dispositivo d WHERE d.statoDispositivo = :statoDispositivo")
     List<Dispositivo> findAllByStatoDispositivo(StatoDispositivo statoDispositivo);
 
 }

@@ -31,13 +31,13 @@ public class AuthController {
     private JwtTools jwtTools;
 
     @PostMapping("/register")
-    private Dipendente register(@RequestBody @Validated DipendenteRequest dipendenteRequest, BindingResult bindingResult)  {
+    public Dipendente register(@RequestBody @Validated DipendenteRequest dipendenteRequest, BindingResult bindingResult)  {
       badRequestException(bindingResult);
        return dipendenteService.saveDipendente(dipendenteRequest);
     }
 
     @PostMapping("/login")
-    private String login (@RequestBody @Validated LoginRequest loginRequest, BindingResult bindingResult) throws Exception {
+    public String login (@RequestBody @Validated LoginRequest loginRequest, BindingResult bindingResult) throws Exception {
         badRequestException(bindingResult);
         Dipendente dipendente =dipendenteService.getByUsername(loginRequest.getUsername());
         if (dipendente.getPassword().equals(loginRequest.getPassword())) {
@@ -49,25 +49,9 @@ public class AuthController {
 
 
 
-    public static void checkIOException(BindingResult bindingResult) throws IOException {
-        if (bindingResult.hasErrors() ) {
-            throw new IOException(bindingResult.getAllErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).toList().toString());
-        }
-    }
     public static void badRequestException(BindingResult bindingResult) {
         if (bindingResult.hasErrors() ) {
             throw new BadRequestExcpetion(bindingResult.getAllErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).toList().toString());
         }
     }
-    public static void checkNotFoundElementException(BindingResult bindingResult) throws NotFoundElementException {
-        if (bindingResult.hasErrors()) {
-            throw new NotFoundElementException(bindingResult.getAllErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).toList().toString());
-        }
-    }
-    public static void checkException(BindingResult bindingResult) throws Exception {
-        if (bindingResult.hasErrors()) {
-            throw new NotFoundElementException(bindingResult.getAllErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).toList().toString());
-        }
-    }
-
 }

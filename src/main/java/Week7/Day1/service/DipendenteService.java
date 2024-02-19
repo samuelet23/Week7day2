@@ -59,6 +59,7 @@ public class DipendenteService {
         d.setNome(dipendente.getNome());
         d.setCognome(dipendente.getCognome());
         d.setUsername(dipendente.getUsername());
+        d.setPassword(dipendente.getPassword());
         d.setEmail(dipendente.getEmail());
         sendEmail(
                 d.getEmail(),
@@ -75,6 +76,7 @@ public class DipendenteService {
         d.setNome(dipendente.getNome());
         d.setCognome(dipendente.getCognome());
         d.setUsername(dipendente.getUsername());
+        d.setPassword(dipendente.getPassword());
         d.setEmail(dipendente.getEmail());
         sendEmail(d.getEmail(),
                 d,
@@ -123,6 +125,17 @@ public class DipendenteService {
                 d,
                 "Aggiornamento email",
                 "Ciao"+ d.getUsername()+", La tua email è stata aggiornata con sucesso"
+                );
+        return dipendenteRepository.save(d);
+
+    }
+    public Dipendente updatePassword(int id, String password) throws NotFoundElementException {
+        Dipendente d = getById(id);
+        d.setPassword(password);
+        sendEmail(d.getEmail(),
+                d,
+                "Aggiornamento password",
+                "Ciao"+ d.getUsername()+", La tua password è stata aggiornata con sucesso"
                 );
         return dipendenteRepository.save(d);
 

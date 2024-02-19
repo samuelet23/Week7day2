@@ -91,6 +91,11 @@ public class DipendenteController {
         checkNotFoundElementException(bindingResult);
         return  dipendenteService.updateEmail(id, email);
     }
+    @PatchMapping("/{id}/password")
+    public Dipendente updatePassword(@PathVariable int id, @RequestBody @Validated String password, BindingResult bindingResult) throws NotFoundElementException {
+        checkNotFoundElementException(bindingResult);
+        return  dipendenteService.updatePassword(id, password);
+    }
 
     @PatchMapping("/{id}/upload")
     public Dipendente uploadImg(@PathVariable int id, @RequestParam("upload") MultipartFile file) throws IOException, NotFoundElementException {
