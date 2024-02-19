@@ -46,6 +46,11 @@ public class ResponseExceptionHandler {
     public ErrorType badRequestExceptionHandler(BadRequestExcpetion e){
         return new ErrorType(e.getMessage());
     }
+    @ExceptionHandler(UnAuthorizedException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ErrorType UnAuthorizedExceptionHandler(BadRequestExcpetion e){
+        return new ErrorType(e.getMessage());
+    }
 
 
 
