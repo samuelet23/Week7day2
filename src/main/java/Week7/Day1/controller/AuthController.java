@@ -2,8 +2,10 @@ package Week7.Day1.controller;
 
 import Week7.Day1.Exception.BadRequestExcpetion;
 import Week7.Day1.Exception.NotFoundElementException;
+import Week7.Day1.model.Auth.LoginRequest;
 import Week7.Day1.model.Dipendente.Dipendente;
 import Week7.Day1.model.Dipendente.DipendenteRequest;
+import Week7.Day1.security.JwtTools;
 import Week7.Day1.service.DipendenteService;
 import jakarta.validation.Valid;
 import org.apache.coyote.BadRequestException;
@@ -25,6 +27,8 @@ public class AuthController {
     @Autowired
     private DipendenteService dipendenteService;
 
+    @Autowired
+    private JwtTools jwtTools;
 
     @PostMapping("/register")
     private Dipendente register(@RequestBody @Validated DipendenteRequest dipendenteRequest, BindingResult bindingResult)  {
@@ -32,7 +36,16 @@ public class AuthController {
        return dipendenteService.saveDipendente(dipendenteRequest);
     }
 
-
+    @PostMapping("/login")
+    private String login (@RequestBody @Validated LoginRequest loginRequest, BindingResult bindingResult) throws Exception {
+        badRequestException(bindingResult);
+        Dipendente dipendente =dipendenteService.getByUsername(loginRequest.getUsername());
+        if (dipendente.getPassword().equals(loginRequest.getPassword())) {
+           return jwtTools.createToken(dipendente);
+        }else {
+            throw new Exception("username/password errato");
+        }
+    }
 
 
 
